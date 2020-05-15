@@ -1,0 +1,28 @@
+﻿@page "/"
+@using Test;
+
+<h1>Hello, world!</h1>
+
+<div>Press "Click me" to time GetHashBytes()</div>
+
+<button class="btn btn-primary" @onclick="TestIt">Click me</button>
+
+<div>@Time</div>
+
+@code {
+
+    public string Time { get; set; }
+    void TestIt()
+        {
+        Crypto crypto = new Crypto();
+        byte[] salt = crypto.Random(512 / 8);
+        Timer timer = new Timer();
+
+        double seconds = timer.Run(() =>
+        {
+            byte[] bytes = crypto.GetHashBytes("Test password", salt, 2000, 256 / 8);
+        });
+
+        Time = $"Time = {seconds} seconds";
+        }
+}
